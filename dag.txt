@@ -1,0 +1,7 @@
+x.t1         <= x.t0     , i.t0                             
+xi.t1        <=                              
+epsilon.t1   <=                              
+l.t1         <= xi.t1    , x.t1                   
+omega.t1     <= omega.t0 , xi.t1              
+i.t1         <= x.t1     , omega.t0         
+y.t1         <= l.t1     , x.t1    , omega.t1 , epsilon.t1
