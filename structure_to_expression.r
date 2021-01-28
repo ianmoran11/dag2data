@@ -17,14 +17,18 @@ structure_text_df_01 <-
 plan(multisession, workers = 7)
 
 first_run <- c(structure_text_df_01$expressions) %>% unlist() %>% c(.,expression(as_tibble(as.list(e))))
-subsequent_runs <- rep(c(unlist(structure_text_df_01$expressions[-1]),expression(as_tibble(as.list(e)))),20)
+subsequent_runs <- rep(c(unlist(structure_text_df_01$expressions[-1]),expression(as_tibble(as.list(e)))),10)
 
-result <-  evaluate_runs(first_run,subsequent_runs,100)
-# result %>% 
-#   group_by(id) %>% mutate(growth = y.t1 - lag(y.t1,1)) %>% View
+t1 <- Sys.time()
+result <-  evaluate_runs(first_run,subsequent_runs,1000)
+t2 <- Sys.time()
+t2 - t1
+
+result %>%
+  group_by(id) %>% mutate(growth = y.t1 - lag(y.t1,1)) %>% View
 
 result %>%  
-  ggplot(aes(x = t, y = exp(y.t1), group = id)) + geom_line()
+  ggplot(aes(x = t, y = exp(y.t1), group = id)) + geom_line(alpha = .30)
 
 result %>% group_by(id) %>% mutate(growth = y.t1 - lag(y.t1,1)) %$% qplot(growth) 
 
